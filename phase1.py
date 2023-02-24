@@ -47,3 +47,41 @@ class SList2(SList):
 
             previous_2=self._head
             nodeIt_2=self._head.next
+
+            #When it doesn't star nor end with the greater sequence
+            for i in range(high_index-1):
+                previous_2 = nodeIt_2
+                nodeIt_2=nodeIt_2.next
+            i=0
+            while i<= max_sequence-1 and nodeIt_2:
+                nodeIt_2 = nodeIt_2.next
+                if nodeIt_2 == None:
+                    previous_2.next = None
+                i+=1
+
+            if nodeIt_2:
+                previous_2.next = nodeIt_2
+
+
+            return str(max_sequence) +" en el " + str(high_index)
+
+
+        pass
+
+test_list= SList2()
+
+for i in [3,1,1,1,2]:
+    test_list.addLast(i)
+print(test_list)
+
+print(test_list.delLargestSeq())
+
+print(test_list)
+
+
+
+
+#for i in range(max_sequence):
+             #   nodeIt_2 = nodeIt_2.next
+              #  if nodeIt_2==None:
+              #      previous_2.next=None
