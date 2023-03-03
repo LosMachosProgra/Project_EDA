@@ -1,3 +1,6 @@
+"""
+Created by (Esteban Gómez) in  ${2022}
+"""
 from slistH import SList
 
 
@@ -29,11 +32,11 @@ class SList2(SList):
             number_sequence=1
             max_sequence=1
             while nodeIt_1:
-                while nodeIt_1.elem==previous_1.elem and nodeIt_1:
+                while nodeIt_1 and nodeIt_1.elem == previous_1.elem:
                     number_sequence +=1
+                    index += 1
                     previous_1 = nodeIt_1
                     nodeIt_1 = nodeIt_1.next
-                    index+=1
 
                 if max_sequence <= number_sequence:
                     max_sequence = number_sequence
@@ -45,43 +48,52 @@ class SList2(SList):
                     previous_1 = nodeIt_1
                     nodeIt_1 = nodeIt_1.next
 
+            # If the biggest sequence starts at zero
             previous_2=self._head
             nodeIt_2=self._head.next
 
-            #When it doesn't star nor end with the greater sequence
-            for i in range(high_index-1):
-                previous_2 = nodeIt_2
-                nodeIt_2=nodeIt_2.next
-            i=0
-            while i<= max_sequence-1 and nodeIt_2:
-                nodeIt_2 = nodeIt_2.next
-                if nodeIt_2 == None:
-                    previous_2.next = None
-                i+=1
+            if high_index == 0:
+                nodeIt_2 = self._head
+                for i in range(max_sequence):
+                    nodeIt_2 = nodeIt_2.next
+                self._head = nodeIt_2
 
-            if nodeIt_2:
-                previous_2.next = nodeIt_2
+            #IT SEEMS THAT WE DON'T NEED THIS CONDITION
 
+            # #If the largest sequence are in the last numbers
+            # if index == len(self) - 1:
+            #     nodeIt_2 = self._head
+            #     for i in range(high_index):
+            #         nodeIt_2=nodeIt_2.next
+            #     nodeIt_2.next= None
 
-            return str(max_sequence) +" en el " + str(high_index)
+            else:
+            #When it doesn't start nor end with the greater sequence
+                for i in range(high_index-1):
+                    previous_2 = nodeIt_2
+                    nodeIt_2=nodeIt_2.next
+                i=0
+                while i<= max_sequence-1 and nodeIt_2:
+                    nodeIt_2 = nodeIt_2.next
+                    if nodeIt_2 == None:
+                        previous_2.next = None
+                    i+=1
+
+                if nodeIt_2:
+                    previous_2.next = nodeIt_2
+
+            return (str(max_sequence) + " en el " + str(high_index))
+
 
 
         pass
 
 test_list= SList2()
 
-for i in [3,1,1,1,2]:
+for i in [2,3,4, 1,1,1]:
     test_list.addLast(i)
 print(test_list)
 
 print(test_list.delLargestSeq())
 
 print(test_list)
-
-
-
-
-#for i in range(max_sequence):
-             #   nodeIt_2 = nodeIt_2.next
-              #  if nodeIt_2==None:
-              #      previous_2.next=None
