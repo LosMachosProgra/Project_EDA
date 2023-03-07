@@ -1,6 +1,4 @@
-"""
-Created by (Esteban Gómez) in  ${2022}
-"""
+
 from slistH import SList
 import time
 
