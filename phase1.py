@@ -1,4 +1,6 @@
-
+"""
+Created by (Esteban Gómez) in  ${2022}
+"""
 from slistH import SList
 import time
 
@@ -89,10 +91,10 @@ class SList2(SList):
             # sequence
                 if nodeIt_2:
                     previous_2.next = nodeIt_2
-                    
+
             #We subtract to size the amount of elements we removed
             self._size-= max_sequence
-            
+
             #This was used to check if the method was identifying the correct largest sequence at the correct index
             #return (str(max_sequence) + " en el " + str(high_index),"en este tiempo")
 
@@ -119,29 +121,39 @@ class SList2(SList):
 
 
     def fix_loop(self):
+        # In an empty list there are no loops
         if self.isEmpty():
-            output= "The list is empty, there is no loop"
+            output = "The list is empty, there is no loop"
         else:
-            #This loop works to detect any loop that goes from the end to the begginning
-            nodeIt=self._head
-            if nodeIt==nodeIt.next:
-                nodeIt.next=None
+            # This fixes a loop if the element creates a loop with itself
+            static = self._head
+            if static == static.next:
+                static.next = None
                 output = "There was a loop"
+            # This loop works to detect any loop that goes from the end to the begginning
             else:
-                static=self._head
-                nodeIt=self._head.next
-                loop= False
-                while nodeIt and not loop:
-                    nodeIt=nodeIt.next
+                static = self._head
+                non_static=self._head
+                nodeIt = self._head.next
+                loop = False
+                # It iterates and if it finds self.head (static) again, there will be a loop
+                i=0
+                while nodeIt and static and not loop:
+                    nodeIt = nodeIt.next
+                    if i % 3 == 0:
+                        non_static = non_static.next
                     if nodeIt:
-                        if nodeIt.next==static:
-                            loop=True
+                        if nodeIt.next == static or nodeIt.next==non_static:
+                            loop = True
+                    i+=1
 
+                # if there was loop, we fix it by making the next of the last element of the list equal to None
                 if loop:
-                    nodeIt.next=None
-                    output= "There Was a loop"
+                    nodeIt.next = None
+                    output = "There Was a loop"
                 if not loop:
-                    output="There was no loop"
+                    output = "There was no loop"
+
         print(output)
 
 
@@ -151,7 +163,7 @@ test_list= SList2()
 
 for i in [2,5,3,2,4,5,5,5,2,4,4,4,4,4,4,4,4,4,4,4,5,3,3,3,3]:
     test_list.addLast(i)
-print(test_list)
+print("We're going to prove the list: ",test_list)
 
 start= time.time()
 
@@ -159,11 +171,11 @@ test_list.delLargestSeq()
 
 end = time.time()
 
-print(end)
-print(start)
-print(end-start)
+print("End time was: ",end)
+print("Start time was: ",start)
+print("Total time was: ",end-start)
 
-print(test_list, "The list has length: ", len(test_list))
+print("The new list: ", test_list, "has a length of ", len(test_list))
 
 
 #This is for Fix loop definition
@@ -171,19 +183,22 @@ print("\n\nFix loop Examples: \n")
 
 list_prove = SList2()
 
-for i in range(1,10):
+for i in range(1,9):
     list_prove.addLast(i)
 
-list_prove.addLast(1)
-print(list_prove)
+print("We're searching for loop in this list: ",list_prove)
 
-list_prove.create_loop(0)
+list_prove.create_loop(1)
 
+
+start_1=time.time()
 
 list_prove.fix_loop()
 
-print(list_prove)
+end_1=time.time()
 
+print("The end time was: ",end_1)
+print("The start time was: ",start_1)
+print("The total time was: ",end_1-start_1)
 
-
-
+print("The final result is: ",list_prove)
