@@ -2,9 +2,12 @@
 Created by (Esteban Gómez) in  ${2022}
 """
 from slistH import SList
+import time
+
 
 class SList2(SList):
     def delLargestSeq(self):
+
         if self.isEmpty():
             print("The list is empty, you can not remove anything")
         elif len(self)==2:
@@ -39,43 +42,53 @@ class SList2(SList):
                     previous_1 = nodeIt_1
                     nodeIt_1 = nodeIt_1.next
 
-            # If the biggest sequence starts at zero
-            # previous_2=self._head
-            # nodeIt_2=self._head.next
-            #
-            # if high_index == 0:
-            #     nodeIt_2 = self._head
-            #     for i in range(max_sequence):
-            #         nodeIt_2 = nodeIt_2.next
-            #     self._head = nodeIt_2
-            # else:
+            #If the biggest sequence starts at zero
+            previous_2=self._head
+            nodeIt_2=self._head.next
+
+            if high_index == 0:
+                nodeIt_2 = self._head
+                for i in range(max_sequence):
+                    nodeIt_2 = nodeIt_2.next
+                self._head = nodeIt_2
+            else:
             #When it doesn't start nor end with the greater sequence
-            for i in range(max_sequence):      #What aproach??
-                 self.removeAt(high_index)
 
-                # for i in range(high_index-1):
-                #     previous_2 = nodeIt_2
-                #     nodeIt_2=nodeIt_2.next
-                # i=0
-                # while i<= max_sequence-1 and nodeIt_2:
-                #     nodeIt_2 = nodeIt_2.next
-                #     if nodeIt_2 == None:
-                #         previous_2.next = None
-                #     i+=1
-                #
-                # if nodeIt_2:
-                #     previous_2.next = nodeIt_2
 
-           # self._size-= max_sequence
-            return (str(max_sequence) + " en el " + str(high_index))
+                for i in range(high_index-1):
+                    previous_2 = nodeIt_2
+                    nodeIt_2=nodeIt_2.next
+                i=0
+                while i<= max_sequence-1 and nodeIt_2:
+                    nodeIt_2 = nodeIt_2.next
+                    if nodeIt_2 == None:
+                        previous_2.next = None
+                    i+=1
+
+                if nodeIt_2:
+                    previous_2.next = nodeIt_2
+
+            self._size-= max_sequence
+
+            return (str(max_sequence) + " en el " + str(high_index),"en este tiempo")
+
+
 
 
 test_list= SList2()
 
-for i in [2,5,3,2,4,5,5,5,2]:
+for i in [2,5,3,2,4,5,5,5,2,4,4,4,4,4,4,4,4,4,4,4,5,4,3,4,5,6,3,4]:
     test_list.addLast(i)
 print(test_list)
 
-print(test_list.delLargestSeq())
+start= time.time()
+
+test_list.delLargestSeq()
+
+end = time.time()
+
+print(end)
+print(start)
+print(end-start)
 
 print(test_list, "The list has length: ", len(test_list))
