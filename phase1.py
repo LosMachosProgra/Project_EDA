@@ -164,7 +164,8 @@ class SList2(SList):
 
         print(output)
 
-
+#This are tests we used to find errors in the Delete Largest Sequence method
+print("\nDelete largest sequence Example: \n")
 
 
 test_list= SList2()
@@ -186,7 +187,7 @@ print("Total time was: ",end-start)
 print("The new list: ", test_list, "has a length of ", len(test_list))
 
 
-#This is for Fix loop definition
+#This are tests we used to find errors in the Fix the loop method
 print("\n\nFix loop Examples: \n")
 
 list_prove = SList2()
