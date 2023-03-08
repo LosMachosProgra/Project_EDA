@@ -1,6 +1,3 @@
-"""
-Created by (Esteban Gómez) in  ${2022}
-"""
 from slistH import SList
 import time
 
@@ -122,36 +119,47 @@ class SList2(SList):
 
     def fix_loop(self):
         # In an empty list there are no loops
+        output= None
         if self.isEmpty():
             output = "The list is empty, there is no loop"
         else:
             # This fixes a loop if the element creates a loop with itself
-            static = self._head
-            if static == static.next:
-                static.next = None
+            first = self._head
+            if first == first.next:
+                first.next = None
                 output = "There was a loop"
             # This loop works to detect any loop that goes from the end to the begginning
             else:
-                static = self._head
-                non_static=self._head
-                nodeIt = self._head.next
+                non_static = self._head
+                nodeIt = self._head
                 loop = False
+                complete_loop = False
+
                 # It iterates and if it finds self.head (static) again, there will be a loop
-                i=0
-                while nodeIt and static and not loop:
-                    nodeIt = nodeIt.next
-                    if i % (len(self)-1) == 0:
-                        non_static = non_static.next
+                while nodeIt and not loop and not complete_loop :
+                    nodeIt = nodeIt.next.next
+                    non_static = non_static.next
                     if nodeIt:
-                        if nodeIt.next == static or nodeIt.next==non_static:
+                        if nodeIt.next.next == non_static.next and nodeIt.next.next == self._head:
+                            complete_loop=True
+                        elif nodeIt == non_static:
                             loop = True
-                    i+=1
+
+                if not complete_loop and loop:
+                    non_static = self._head
+                    while non_static.next != nodeIt.next:
+                        non_static = non_static.next
+                        nodeIt = nodeIt.next
+
 
                 # if there was loop, we fix it by making the next of the last element of the list equal to None
+                if complete_loop:
+                    nodeIt.next.next= None
+                    output = "There was a complete loop"
                 if loop:
                     nodeIt.next = None
                     output = "There Was a loop"
-                if not loop:
+                if not loop and not complete_loop:
                     output = "There was no loop"
 
         print(output)
@@ -188,4 +196,21 @@ for i in range(1,20):
 
 print("We're searching for loop in this list: ",list_prove)
 
-list_prove.create_loop(16)
+list_prove.create_loop(0)
+
+
+start_1=time.time()
+
+list_prove.fix_loop()
+
+end_1=time.time()
+
+print("The end time was: ",end_1)
+print("The start time was: ",start_1)
+print("The total time was: ",end_1-start_1)
+
+print("The final result is: ",list_prove)
+
+
+
+
