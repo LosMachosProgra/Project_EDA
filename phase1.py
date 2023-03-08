@@ -140,7 +140,7 @@ class SList2(SList):
                 i=0
                 while nodeIt and static and not loop:
                     nodeIt = nodeIt.next
-                    if i % 3 == 0:
+                    if i % (len(self)-1) == 0:
                         non_static = non_static.next
                     if nodeIt:
                         if nodeIt.next == static or nodeIt.next==non_static:
@@ -183,22 +183,9 @@ print("\n\nFix loop Examples: \n")
 
 list_prove = SList2()
 
-for i in range(1,9):
+for i in range(1,20):
     list_prove.addLast(i)
 
 print("We're searching for loop in this list: ",list_prove)
 
-list_prove.create_loop(1)
-
-
-start_1=time.time()
-
-list_prove.fix_loop()
-
-end_1=time.time()
-
-print("The end time was: ",end_1)
-print("The start time was: ",start_1)
-print("The total time was: ",end_1-start_1)
-
-print("The final result is: ",list_prove)
+list_prove.create_loop(16)
