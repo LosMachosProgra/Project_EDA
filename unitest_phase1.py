@@ -1,3 +1,4 @@
+
 import unittest
 from phase1 import SList2
 
@@ -148,11 +149,50 @@ class Tests(unittest.TestCase):
         self.expected="1,2,3,4,5,6"
         self.assertEqual(str(self.expected),str(self.input))
 
-    # def test_for_loop_at_beggining(self):
-    #     """Checks if the method of fixing loop works for a loop that end in the last node and starts at self_head"""
-    #     for i in [1, 2, 3, 4, 5, 6, 7, 8]:
-    #         self.input.addLast(i)
-    #     self.input.create_loop(2)
-    #     self.input.fix_loop()
-    #     self.expected="1,2,3,4,5,6,7,8"
-    #     self.assertEqual(str(self.expected),str(self.input))
+    def test_for_loop_at_beggining(self):
+        """Checks if the method of fixing loop works for a loop that end in the last node and starts at self_head"""
+        for i in range(1,20):
+            self.input.addLast(i)
+        self.input.create_loop(2)
+        self.input.fix_loop()
+        self.expected="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19"
+        self.assertEqual(str(self.expected),str(self.input))
+
+
+    def test_for_loop_at_almost_end(self):
+        """Checks if the method of fixing loop works for a loop that end in the last node and starts at self_head"""
+        for i in range(1,20):
+            self.input.addLast(i)
+        self.input.create_loop(17)
+        self.input.fix_loop()
+        self.expected="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19"
+        self.assertEqual(str(self.expected),str(self.input))
+
+
+    def test_for_loop_at_middle_odd(self):
+        """Checks if the method of fixing loop works for a loop that end in the middle of the sequence and starts at
+        self_head"""
+        for i in range(1,20):
+            self.input.addLast(i)
+        self.input.create_loop(11)
+        self.input.fix_loop()
+        self.expected="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19"
+        self.assertEqual(str(self.expected),str(self.input))
+
+    def test_for_loop_at_almostmiddle_even(self):
+        """Checks if the method of fixing loop works for a loop that goes from the end to the middle node plus one """
+        for i in range(1, 21):
+            self.input.addLast(i)
+        self.input.create_loop(11)
+        self.input.fix_loop()
+        self.expected = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
+        self.assertEqual(str(self.expected), str(self.input))
+
+    def test_for_loop_at_last(self):
+        """Checks if the method of fixing loop works for a loop that goes from the end to the middle node plus one """
+        for i in range(1, 21):
+            self.input.addLast(i)
+        self.input.create_loop(len(self.input)- 1)
+        self.input.fix_loop()
+        self.expected = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
+        self.assertEqual(str(self.expected), str(self.input))
