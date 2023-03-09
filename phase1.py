@@ -24,32 +24,35 @@ class SList2(SList):
             previous_1 = self._head
             nodeIt_1 = self._head.next
             #We create a variable that will tell the index of each element (index), and one that tells the index of the
-            #first element of the longest sequence (high_index). The index starts at one because, we start iterating
-            # at index 1 with the position of nodeIt_1
-            index, high_index=1, 0
+            #one element before the first element of the longest sequence (high_index), we use one before because
+            # later we're going to iterate until this previous element in order to skip the elements of the longest
+            # sequence. The index starts at one because, we start iterating at index 1 with the position of nodeIt_1
+            index, aux_high_index=1, 0
             #We have a variable that tells the longitude of each sequence (number sequence), and one that stores the
             # longitude of the largest one (max_sequence). Both start at 1 because we can't have a sequence of 0
             # elements
             number_sequence, max_sequence=1, 1
             #We go through the list looking for the largest sequence
             while nodeIt_1:
-                #If the element is equal to the next one it will keep in the loop and store the longitude and initial
-                # index of the sequence
-                while nodeIt_1 and nodeIt_1.elem == previous_1.elem:
+                #If the element is equal to the next one it will add a number to the number of sequence
+                if nodeIt_1.elem == previous_1.elem:
                     number_sequence +=1
-                    index += 1
-                    previous_1 = nodeIt_1
-                    nodeIt_1 = nodeIt_1.next
+                #If the numbers are different, it will reset the variable
+                else:
+                    number_sequence = 1
                 #If the previous sequence is the longest one, it will store the value in the max_sequence variable,
-                # and the initial index on the high_index variable
+                # and the initial index on the aux_high_index variable
                 if max_sequence <= number_sequence:
                     max_sequence = number_sequence
-                    high_index = index - max_sequence
+                    #This will give us the index of the element that goes before the first element of the longest
+                    # sequence
+                    aux_high_index = index - max_sequence
+
                 #The index will keep increasing even if the elements are different
-                index+=1
+                index += 1
+
                 #We reset the number of the sequence to 1, in order to start counting again how many elements belong
                 # to the next sequence
-                number_sequence=1
                 #We need to keep iterating even if the elements are different
                 if nodeIt_1:
                     previous_1 = nodeIt_1
@@ -59,8 +62,9 @@ class SList2(SList):
             previous_2=self._head
             nodeIt_2=self._head.next
 
-            # If the biggest sequence starts at zero
-            if high_index == 0:
+            # If the biggest sequence starts at zero; we put <= because aux_high_index gives the index element before
+            # the longest sequence, in this case this subtraction (index-max-sequence) will give a negative number.
+            if aux_high_index <= 0:
                 nodeIt_2 = self._head
                 #We skip the number of elements of the max_sequence
                 for i in range(max_sequence):
@@ -70,7 +74,7 @@ class SList2(SList):
             else:
             #When it doesn't start with the greater sequence
                 #It iterates until one element before the first element of the largest sequence
-                for i in range(high_index-1):
+                for i in range(aux_high_index):
                     previous_2 = nodeIt_2
                     nodeIt_2=nodeIt_2.next
 
@@ -164,13 +168,15 @@ class SList2(SList):
 
         print(output)
 
+
+
 #This are tests we used to find errors in the Delete Largest Sequence method
 print("\nDelete largest sequence Example: \n")
 
 
 test_list= SList2()
 
-for i in [2,5,3,2,4,5,5,5,2,4,4,4,4,4,4,4,4,4,4,4,5,3,3,3,3]:
+for i in [4,4,4,4,4,4,4,4,4,4,5,3,3,3,3]:
     test_list.addLast(i)
 print("We're going to prove the list: ",test_list)
 
@@ -187,7 +193,7 @@ print("Total time was: ",end-start)
 print("The new list: ", test_list, "has a length of ", len(test_list))
 
 
-#This are tests we used to find errors in the Fix the loop method
+#This is for Fix loop definition
 print("\n\nFix loop Examples: \n")
 
 list_prove = SList2()
@@ -211,7 +217,3 @@ print("The start time was: ",start_1)
 print("The total time was: ",end_1-start_1)
 
 print("The final result is: ",list_prove)
-
-
-
-
