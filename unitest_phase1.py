@@ -1,4 +1,3 @@
-
 import unittest
 from phase1 import SList2
 
@@ -150,7 +149,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(str(self.expected),str(self.input))
 
     def test_for_loop_at_beggining(self):
-        """Checks if the method of fixing loop works for a loop that end in the last node and starts at self_head"""
+        """Checks if the method of fixing loop works for a loop that is at the begginning og the list"""
         for i in range(1,20):
             self.input.addLast(i)
         self.input.create_loop(2)
@@ -160,7 +159,7 @@ class Tests(unittest.TestCase):
 
 
     def test_for_loop_at_almost_end(self):
-        """Checks if the method of fixing loop works for a loop that end in the last node and starts at self_head"""
+        """Checks if the method of fixing loop works for a loop that is almost at the end"""
         for i in range(1,20):
             self.input.addLast(i)
         self.input.create_loop(17)
@@ -170,8 +169,8 @@ class Tests(unittest.TestCase):
 
 
     def test_for_loop_at_middle_odd(self):
-        """Checks if the method of fixing loop works for a loop that end in the middle of the sequence and starts at
-        self_head"""
+        """Checks if the method of fixing loop works for a loop that goes from the middle of the sequence and
+        starts at the final element"""
         for i in range(1,20):
             self.input.addLast(i)
         self.input.create_loop(11)
@@ -189,10 +188,85 @@ class Tests(unittest.TestCase):
         self.assertEqual(str(self.expected), str(self.input))
 
     def test_for_loop_at_last(self):
-        """Checks if the method of fixing loop works for a loop that goes from the end to the middle node plus one """
+        """Checks if the method of fixing loop works for a loop in the end of the list """
         for i in range(1, 21):
             self.input.addLast(i)
         self.input.create_loop(len(self.input)- 1)
         self.input.fix_loop()
         self.expected = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
+        self.assertEqual(str(self.expected), str(self.input))
+
+    def test_for_Empty_lrs(self):        #lrs=left-right_shift
+        """Checks if the method works for an empty list"""
+        self.input.leftrightShift(True,1)
+        #We expect to return an empty list
+        self.expected= ""
+        self.assertEqual(str(self.expected),str(self.input))
+
+    def test_for_n_equal_len(self):
+        """Checks if the method works for n==len(self)"""
+        for i in [1, 2, 3, 4, 5, 6]:
+            self.input.addLast(i)
+            self.expected.addLast(i)
+        self.input.leftrightShift(True, 6)
+        # We should end up with the same list
+        self.assertEqual(str(self.expected), str(self.input))
+
+    def test_for_len1(self):
+        """Checks if the method works for lists with only the same element"""
+        self.input.addLast(1)
+        self.input.leftrightShift(True,1)
+        # We expect that it returns the same list
+        self.expected = "1"
+        self.assertEqual(str(self.expected),str(self.input))
+
+    def test_for_n0(self):
+        """Checks if the method works for n=0"""
+        for i in [1, 2, 3, 4, 5, 6]:
+            self.input.addLast(i)
+        self.input.leftrightShift(True,0)
+        self.expected="1,2,3,4,5,6"
+        self.assertEqual(str(self.expected),str(self.input))
+
+    def test_for_n_bigger(self):
+        """Checks if the method works for n>len(self)"""
+        for i in [1, 2, 3, 4, 5, 6]:
+            self.input.addLast(i)
+            self.expected.addLast(i)
+        self.input.leftrightShift(True, 7)
+        #We should end up with the same list
+        self.assertEqual(str(self.expected), str(self.input))
+
+
+    def test_for_left_small_n(self):
+        """Checks if the method is correct when applying a small n and saying that left =True"""
+        for i in range(1,20):
+            self.input.addLast(i)
+        self.input.leftrightShift(True,2)
+        self.expected="3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,1,2"
+        self.assertEqual(str(self.expected),str(self.input))
+
+    def test_for_left_big_n(self):
+        """Checks if the method is correct when applying a big n and saying that left =True"""
+        for i in range(1, 20):
+            self.input.addLast(i)
+        self.input.leftrightShift(True, 10)
+        self.expected = "11,12,13,14,15,16,17,18,19,1,2,3,4,5,6,7,8,9,10"
+        self.assertEqual(str(self.expected), str(self.input))
+
+
+    def test_for_left_false_small_n(self):
+        """Checks if the method is correct when applying a small n and saying that left =False"""
+        for i in range(1, 20):
+            self.input.addLast(i)
+        self.input.leftrightShift(False, 2)
+        self.expected = "18,19,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17"
+        self.assertEqual(str(self.expected), str(self.input))
+
+    def test_for_left_false_big_n(self):
+        """Checks if the method is correct when applying a big n and saying that left =False"""
+        for i in range(1, 20):
+            self.input.addLast(i)
+        self.input.leftrightShift(False, 14)
+        self.expected = "6,7,8,9,10,11,12,13,14,15,16,17,18,19,1,2,3,4,5"
         self.assertEqual(str(self.expected), str(self.input))
