@@ -169,20 +169,62 @@ class SList2(SList):
         print(output)
 
 
+    def leftrightShift(self,left,n):
+        if self.isEmpty() or n==0 or len(self)==1:
+            pass
+        #If n is equal to the len(self) the list will remain the same
+        elif n > len(self) or n==len(self):
+            pass
+
+        elif len(self) == 2:
+            nodeIt=self._head.next
+            self._head.next=None
+            nodeIt.next=self._head
+            self._head=nodeIt
+        else:
+            previous=self._head
+            node_It=previous.next
+
+            if left==True:
+                for i in range(n-1):
+                    previous = node_It
+                    node_It=node_It.next
+                newhead = node_It
+
+            if left==False:
+                for i in range(len(self)-n-1):
+                    previous=node_It
+                    node_It=node_It.next
+
+                newhead = node_It
+
+            while node_It.next:
+                node_It=node_It.next
+            previous.next=None
+            node_It.next=self._head
+            self._head = newhead
+
+
+
+
+
+
+
+
 
 #This are tests we used to find errors in the Delete Largest Sequence method
 print("\nDelete largest sequence Example: \n")
 
 
-test_list= SList2()
+list_prove= SList2()
 
 for i in [4,4,4,4,4,4,4,4,4,4,5,3,3,3,3]:
-    test_list.addLast(i)
-print("We're going to prove the list: ",test_list)
+    list_prove.addLast(i)
+print("We're going to prove the list: ",list_prove)
 
 start= time.time()
 
-test_list.delLargestSeq()
+list_prove.delLargestSeq()
 
 end = time.time()
 
@@ -190,25 +232,25 @@ print("End time was: ",end)
 print("Start time was: ",start)
 print("Total time was: ",end-start)
 
-print("The new list: ", test_list, "has a length of ", len(test_list))
+print("The new list: ", list_prove, "has a length of ", len(list_prove))
 
 
 #This is for Fix loop definition
 print("\n\nFix loop Examples: \n")
 
-list_prove = SList2()
+list2_prove = SList2()
 
 for i in range(1,20):
-    list_prove.addLast(i)
+    list2_prove.addLast(i)
 
-print("We're searching for loop in this list: ",list_prove)
+print("We're searching for loop in this list: ",list2_prove)
 
-list_prove.create_loop(0)
+list2_prove.create_loop(0)
 
 
 start_1=time.time()
 
-list_prove.fix_loop()
+list2_prove.fix_loop()
 
 end_1=time.time()
 
@@ -217,3 +259,14 @@ print("The start time was: ",start_1)
 print("The total time was: ",end_1-start_1)
 
 print("The final result is: ",list_prove)
+
+list3_prove=SList2()
+
+for i in range(1,20):
+    list3_prove.addLast(i)
+
+print("The list we're going to change is:",list3_prove)
+
+list3_prove.leftrightShift(True,21)
+
+print("The remaining list will be: ",list3_prove)
