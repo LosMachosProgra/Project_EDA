@@ -1,7 +1,11 @@
+
 from slistH import SList
 import time
 
-
+#This method have a lot of comments because programming class the teacher usually asked for a huge amount of
+# comments on the code. After talking with the teacher responsible for the grading of this project we were
+# instructed that for the next methods we don't make this amount of comments, but we were also told to let the
+# comments that we had make at that moment.
 class SList2(SList):
     def delLargestSeq(self):
         #This check the case in which the list is empty
@@ -139,8 +143,9 @@ class SList2(SList):
                 loop = False
                 complete_loop = False
 
-                # It iterates and if it finds self.head (static) again, there will be a loop
-                while nodeIt and not loop and not complete_loop :
+                # It iterates and looks if it founds the same element, if so, there is a loop. For this we iterate a
+                # variable at a higher speed that the otherr, until they find each other.
+                while nodeIt and not loop and not complete_loop:
                     nodeIt = nodeIt.next.next
                     non_static = non_static.next
                     if nodeIt:
@@ -149,6 +154,9 @@ class SList2(SList):
                         elif nodeIt == non_static:
                             loop = True
 
+                #If there is a loop that is not complete, we will start again the iteration of two variables,
+                # the place where this two variable will find each other, is the place where the loop starts.
+
                 if not complete_loop and loop:
                     non_static = self._head
                     while non_static.next != nodeIt.next:
@@ -156,13 +164,17 @@ class SList2(SList):
                         nodeIt = nodeIt.next
 
 
-                # if there was loop, we fix it by making the next of the last element of the list equal to None
+                # if there was a complete loop, we fix it by making the next of the last element of the list equal to
+                # None
                 if complete_loop:
                     nodeIt.next.next= None
                     output = "There was a complete loop"
+                #If there is a loop that is not complete, we will say that the next of the element that is before the
+                # one where the loop begins will be zero.
                 if loop:
                     nodeIt.next = None
                     output = "There Was a loop"
+
                 if not loop and not complete_loop:
                     output = "There was no loop"
 
@@ -184,7 +196,8 @@ class SList2(SList):
         else:
             previous=self._head
             node_It=previous.next
-
+            #You need to iterate until one element becomes the one before the first one you will change of side,
+            # and the other, the new head.
             if left==True:
                 for i in range(n-1):
                     previous = node_It
@@ -267,6 +280,6 @@ for i in range(1,20):
 
 print("The list we're going to change is:",list3_prove)
 
-list3_prove.leftrightShift(True,21)
+list3_prove.leftrightShift(True,1)
 
 print("The remaining list will be: ",list3_prove)
