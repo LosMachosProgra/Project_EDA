@@ -17,6 +17,7 @@ class Tests(unittest.TestCase):
         #The assertEqual method help us to see if our expected value is the same that we got as result
         self.assertEqual(0,len(self.input))
         self.assertEqual("",str(self.input))
+        self.assertEqual(0, len(self.input))
 
     def test_for_len_1(self):
         """This method help us check if the function works for list of 1 element"""
@@ -25,6 +26,7 @@ class Tests(unittest.TestCase):
         self.input.delLargestSeq()
         self.expected= ""
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(0, len(self.input))
 
     def test_for_len_2_equal(self):
         """This method help us check if the function works for list of 2 elements that are equal"""
@@ -35,6 +37,7 @@ class Tests(unittest.TestCase):
         #We expect the method eliminates all the list
         self.expected= ""
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(0, len(self.input))
 
     def test_for_len_2_distinct(self):
         """Checks if the method works for lists of two nodes of different values"""
@@ -44,7 +47,9 @@ class Tests(unittest.TestCase):
         self.input.delLargestSeq()
         #We expect that the method eliminates the last element of the list
         self.expected= 1
+        self.expected_len=1
         self.assertEqual(str(self.expected),str(self.input),)
+        self.assertEqual(1, len(self.input))
 
 
 
@@ -56,39 +61,43 @@ class Tests(unittest.TestCase):
         self.input.delLargestSeq()
         #We expect that it eliminates the sequence
         self.expected= "1,2,2,3"
+        self.expected_len = 4
         self.assertEqual(str(self.expected),str(self.input),)
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_big_sequence(self):
         """Checks if the method works for lists with only one sequence"""
         for i in [1,2,4,4,4,4,4,4,4,4,2,3]:
             self.input.addLast(i)
-
         self.input.delLargestSeq()
         #We expect that it eliminates the big sequence
         self.expected= "1,2,2,3"
+        self.expected_len = 4
         self.assertEqual(str(self.expected),str(self.input),)
-
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_2_size_sequences(self):
         """Checks if the method works for two sequences of different sizes"""
         for i in [1,3,3,4,4,4,3]:
             self.input.addLast(i)
-
         self.input.delLargestSeq()
         #We expect that it eliminates the biggest sequence
         self.expected= "1,3,3,3"
-        self.assertEqual(str(self.expected),str(self.input),)
+        self.expected_len = 4
+        self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
 
     def test_for_3_size_sequences(self):
         """Checks if the method works for 3 lists of different sizes"""
         for i in [1,3,3,3,6,5,6,4,4,4,4,4,4,4,4,2,3,4,4,4,4,2]:
             self.input.addLast(i)
-
         self.input.delLargestSeq()
         #We expect that it eliminates the biggest sequence
         self.expected= "1,3,3,3,6,5,6,2,3,4,4,4,4,2"
+        self.expected_len = 14
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_same_size_sequences(self):
         """Checks if the method works for list with two sequences of same size"""
@@ -98,7 +107,9 @@ class Tests(unittest.TestCase):
         self.input.delLargestSeq()
         #We expect that it eliminates from both sequences the one that is more to the right
         self.expected= "1,3,3,3"
+        self.expected_len = 4
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_3_same_sequences(self):
         """Checks if the method works for lists with only one sequence"""
@@ -108,7 +119,9 @@ class Tests(unittest.TestCase):
         self.input.delLargestSeq()
         #We expect that it eliminates the biggest sequence
         self.expected= "1,3,3,3,4,4,4,1"
+        self.expected_len = 8
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_begginning(self):
         """Checks if the method works for lists that start with the biggest sequence"""
@@ -118,7 +131,9 @@ class Tests(unittest.TestCase):
         self.input.delLargestSeq()
         #We expect that it eliminates the biggest sequence, that is the first one
         self.expected= "4,4,3"
+        self.expected_len = 3
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_ending(self):
         """Checks if the method works for lists that end in the biggest sequence"""
@@ -128,7 +143,9 @@ class Tests(unittest.TestCase):
         self.input.delLargestSeq()
         #We expect that it eliminates the biggest sequence, that is the last one
         self.expected= "1,3,3,4"
+        self.expected_len = 4
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_all_same(self):
         """Checks if the method works for lists with only the same element"""
@@ -137,7 +154,9 @@ class Tests(unittest.TestCase):
         self.input.delLargestSeq()
         # We expect that it eliminates the biggest sequence
         self.expected = ""
+        self.expected_len = 0
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_complete_loop(self):
         """Checks if the method of fixing loop works for a loop that end in the last node and starts at self_head"""
@@ -146,7 +165,9 @@ class Tests(unittest.TestCase):
         self.input.create_loop(0)
         self.input.fix_loop()
         self.expected="1,2,3,4,5,6"
+        self.expected_len = 6
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_loop_at_beggining(self):
         """Checks if the method of fixing loop works for a loop that is at the begginning og the list"""
@@ -155,7 +176,9 @@ class Tests(unittest.TestCase):
         self.input.create_loop(2)
         self.input.fix_loop()
         self.expected="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19"
+        self.expected_len = 19
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
 
     def test_for_loop_at_almost_end(self):
@@ -165,7 +188,9 @@ class Tests(unittest.TestCase):
         self.input.create_loop(17)
         self.input.fix_loop()
         self.expected="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19"
+        self.expected_len = 19
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
 
     def test_for_loop_at_middle_odd(self):
@@ -176,7 +201,9 @@ class Tests(unittest.TestCase):
         self.input.create_loop(11)
         self.input.fix_loop()
         self.expected="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19"
+        self.expected_len = 19
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_loop_at_almostmiddle_even(self):
         """Checks if the method of fixing loop works for a loop that goes from the end to the middle node plus one """
@@ -185,7 +212,9 @@ class Tests(unittest.TestCase):
         self.input.create_loop(11)
         self.input.fix_loop()
         self.expected = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
+        self.expected_len = 20
         self.assertEqual(str(self.expected), str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_loop_at_last(self):
         """Checks if the method of fixing loop works for a loop in the end of the list """
@@ -194,23 +223,29 @@ class Tests(unittest.TestCase):
         self.input.create_loop(len(self.input)- 1)
         self.input.fix_loop()
         self.expected = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
+        self.expected_len = 20
         self.assertEqual(str(self.expected), str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_Empty_lrs(self):        #lrs=left-right_shift
         """Checks if the method works for an empty list"""
         self.input.leftrightShift(True,1)
         #We expect to return an empty list
         self.expected= ""
+        self.expected_len = 0
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_n_equal_len(self):
         """Checks if the method works for n==len(self)"""
         for i in [1, 2, 3, 4, 5, 6]:
             self.input.addLast(i)
             self.expected.addLast(i)
+        self.expected_len = 6
         self.input.leftrightShift(True, 6)
         # We should end up with the same list
         self.assertEqual(str(self.expected), str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_len1(self):
         """Checks if the method works for lists with only the same element"""
@@ -218,7 +253,9 @@ class Tests(unittest.TestCase):
         self.input.leftrightShift(True,1)
         # We expect that it returns the same list
         self.expected = "1"
+        self.expected_len = 1
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_n0(self):
         """Checks if the method works for n=0"""
@@ -226,16 +263,20 @@ class Tests(unittest.TestCase):
             self.input.addLast(i)
         self.input.leftrightShift(True,0)
         self.expected="1,2,3,4,5,6"
+        self.expected_len = 6
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_n_bigger(self):
         """Checks if the method works for n>len(self)"""
         for i in [1, 2, 3, 4, 5, 6]:
             self.input.addLast(i)
             self.expected.addLast(i)
+        self.expected_len = 6
         self.input.leftrightShift(True, 7)
         #We should end up with the same list
         self.assertEqual(str(self.expected), str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
 
     def test_for_left_small_n(self):
@@ -244,7 +285,9 @@ class Tests(unittest.TestCase):
             self.input.addLast(i)
         self.input.leftrightShift(True,2)
         self.expected="3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,1,2"
+        self.expected_len = 19
         self.assertEqual(str(self.expected),str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_left_big_n(self):
         """Checks if the method is correct when applying a big n and saying that left =True"""
@@ -252,7 +295,9 @@ class Tests(unittest.TestCase):
             self.input.addLast(i)
         self.input.leftrightShift(True, 10)
         self.expected = "11,12,13,14,15,16,17,18,19,1,2,3,4,5,6,7,8,9,10"
+        self.expected_len = 19
         self.assertEqual(str(self.expected), str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
 
     def test_for_left_false_small_n(self):
@@ -261,7 +306,9 @@ class Tests(unittest.TestCase):
             self.input.addLast(i)
         self.input.leftrightShift(False, 2)
         self.expected = "18,19,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17"
+        self.expected_len = 19
         self.assertEqual(str(self.expected), str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
 
     def test_for_left_false_big_n(self):
         """Checks if the method is correct when applying a big n and saying that left =False"""
@@ -269,4 +316,6 @@ class Tests(unittest.TestCase):
             self.input.addLast(i)
         self.input.leftrightShift(False, 14)
         self.expected = "6,7,8,9,10,11,12,13,14,15,16,17,18,19,1,2,3,4,5"
+        self.expected_len = 19
         self.assertEqual(str(self.expected), str(self.input))
+        self.assertEqual(self.expected_len, len(self.input))
