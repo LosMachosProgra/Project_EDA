@@ -107,7 +107,41 @@ def n(self, n):
 # Exercise #2
 def create_tree(input_tree1: BinarySearchTree, input_tree2: BinarySearchTree, opc: str) -> BinarySearchTree:
     # Here your code
-    ...
+    output_tree=BinarySearchTree()
+    if opc=="merge":
+        print("Here it starts the process of merge")
+        output_tree = input_tree1
+        node = input_tree2.root
+        merge(output_tree.root, node)
+        if node.left:
+            node=node.left                              #Only missing to iterate the second tree
+            merge(output_tree.root, node)
+
+
+
+        return output_tree
+
+    elif opc == "intersection":
+        ...
+    else:
+        ...
+
+
+def merge(compare: BinaryNode, node: BinaryNode):
+    print("__", node.elem)
+    if compare is None:
+        return BinaryNode(node.elem)
+
+    if compare.elem == node.elem:
+        return None
+
+    elif node.elem < compare.elem:
+        compare.left = merge(compare.left, node)
+
+    elif node.elem > compare.elem:
+        compare.right = merge(compare.right, node)
+
+    return compare
     
 
 # Some usage examples
