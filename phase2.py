@@ -100,100 +100,111 @@ def n(self, n):
 
 
 
-
-
-
-
 # Exercise #2
+
+@property
+def opc(self) -> str:
+    return self._n
+
+
+# First case, when n is not an integer, or it does not exist as an element of the tree.
+@opc.setter
+def opc(self, opc):
+    if opc != "merge" and opc != "intersection" and opc != "difference":
+        raise TypeError("'n' must be merge, intersection, or difference")
+    else:
+        self._opc = opc
+
+
 def create_tree(input_tree1: BinarySearchTree, input_tree2: BinarySearchTree, opc: str) -> BinarySearchTree:
     # Here your code
     output_tree=BinarySearchTree()
-    if opc=="merge":
+    if opc == "merge":
         print("Here it starts the process of merge")
-        output_tree = input_tree1
-        node = input_tree2.root
-        merge(output_tree.root, node)
-        if node.left:
-            node=node.left                              #Only missing to iterate the second tree
-            merge(output_tree.root, node)
 
+        include_tree(output_tree,input_tree1.root)
 
+        difference(output_tree, output_tree.root, input_tree2.root)
 
         return output_tree
 
     elif opc == "intersection":
-        ...
-    else:
-        ...
+        print("Here it starts the process of intersection")
+        insert_repeated( input_tree2, output_tree, input_tree1.root)
+        return output_tree
 
 
-def merge(compare: BinaryNode, node: BinaryNode):
-    print("__", node.elem)
-    if compare is None:
-        return BinaryNode(node.elem)
+    else:   # opc== ""difference
+        print("Here it starts the process of difference")
+        include_tree(output_tree,input_tree1.root)
+        remove_repeated(output_tree, input_tree2.root)
+        return output_tree
 
-    if compare.elem == node.elem:
-        return None
+def include_tree(tree:BinarySearchTree, node:BinaryNode):
+    if node:
+        tree.insert(node.elem)
 
-    elif node.elem < compare.elem:
-        compare.left = merge(compare.left, node)
+        include_tree(tree, node.left)
 
-    elif node.elem > compare.elem:
-        compare.right = merge(compare.right, node)
+        include_tree(tree, node.right)
 
-    return compare
-    
+    return None
+
+
+def difference(tree: BinarySearchTree, node_tree1: BinaryNode, node_tree2: BinaryNode):
+    if node_tree2:
+
+        if tree.search(node_tree2.elem) == None:
+            tree.insert(node_tree2.elem)
+
+        difference(tree, node_tree1, node_tree2.left)
+        difference(tree, node_tree1, node_tree2.right)
+
+    return    #It is reduntant, but we put it for better understanding
+
+
+def remove_repeated(tree:BinarySearchTree, node:BinaryNode):
+    if node:
+       # if tree.search(node.elem) != None:
+        tree.remove(node.elem)
+        remove_repeated(tree,node.left)
+        remove_repeated(tree,node.right)
+    return
+
+def insert_repeated( tree2:BinarySearchTree, output_tree: BinarySearchTree, node:BinaryNode):
+    if node:
+        if tree2.search(node.elem):
+            output_tree.insert(node.elem)
+        insert_repeated( tree2, output_tree, node.left)
+        insert_repeated( tree2, output_tree, node.right)
+    return
+
+
 
 # Some usage examples
-if __name__ == '__main__':
-    # input_list_01 = [5, 1, 7, 9, 23]
-    # input_list_02 = [1, 9, 11]
-    input_list_01 = [5, 12, 2, 1, 3, 9]
-    input_list_02 = [9, 3, 21]
+    #if __name__ == '__main__':
+# input_list_01 = [5, 1, 7, 9, 23]
+# input_list_02 = [1, 9, 11]
 
-    # Build and draw first tree
-    tree1 = BinarySearchTree()
-    for x in input_list_01:
-        tree1.insert(x)
-    tree1.draw()
+input_list_01 = [18, 9, 12,4,3,2,1,50]
+input_list_02 =  [8,7,4,13,9,11,18]
 
-    # Build and draw second tree
-    tree2 = BinarySearchTree()
-    for x in input_list_02:
-        tree2.insert(x)
-    tree2.draw()
+# Build and draw first tree
+tree1 = BinarySearchTree()
+for x in input_list_01:
+    tree1.insert(x)
+tree1.draw()
 
-    function_names = ["merge", "intersection", "difference"]
+# Build and draw second tree
+tree2 = BinarySearchTree()
+for x in input_list_02:
+    tree2.insert(x)
+tree2.draw()
 
-    for op_name in function_names:
-        res = create_tree(tree1, tree2, op_name)
-        print(f"-- Result for {op_name} method. #{res.size()} nodes")
-        res.draw()
+function_names = ["merge", "intersection", "difference"]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+res = create_tree(tree1, tree2, "difference")
+res.draw()
 
 
 
