@@ -83,7 +83,6 @@ def create_tree(input_tree1: BinarySearchTree, input_tree2: BinarySearchTree, op
     # Here your code
     output_tree=BinarySearchTree()
     if opc == "merge":
-        print("Here it starts the process of merge")
 
         include_tree(output_tree,input_tree1.root)
 
@@ -92,13 +91,11 @@ def create_tree(input_tree1: BinarySearchTree, input_tree2: BinarySearchTree, op
         return output_tree
 
     elif opc == "intersection":
-        print("Here it starts the process of intersection")
         insert_repeated( input_tree2, output_tree, input_tree1.root)
         return output_tree
 
 
     else:   # opc== ""difference
-        print("Here it starts the process of difference")
         insert_not_repeated(input_tree2, output_tree,input_tree1.root)
         return output_tree
 
