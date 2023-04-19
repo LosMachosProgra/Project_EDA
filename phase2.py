@@ -63,43 +63,6 @@ class BST2(BinarySearchTree):
 
 
 
-
-
-
-@property
-def n(self) -> int:
-    return self._n
-# First case, when n is not an integer, or it does not exist as an element of the tree.
-@n.setter
-def n(self, n):
-    if n != int:
-        raise TypeError("'n' must be an integer")
-    #If n is not in the given range, it returns an empty list.
-    elif n < 0 or n > self.BinaryTree.size:
-        return "[]"
-    else:
-        self._n = n
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Exercise #2
 
 @property
@@ -136,8 +99,7 @@ def create_tree(input_tree1: BinarySearchTree, input_tree2: BinarySearchTree, op
 
     else:   # opc== ""difference
         print("Here it starts the process of difference")
-        include_tree(output_tree,input_tree1.root)
-        remove_repeated(output_tree, input_tree2.root)
+        insert_not_repeated(input_tree2, output_tree,input_tree1.root)
         return output_tree
 
 def include_tree(tree:BinarySearchTree, node:BinaryNode):
@@ -163,15 +125,17 @@ def difference(tree: BinarySearchTree, node_tree1: BinaryNode, node_tree2: Binar
     return    #It is reduntant, but we put it for better understanding
 
 
-def remove_repeated(tree:BinarySearchTree, node:BinaryNode):
+def insert_not_repeated(tree2:BinarySearchTree, output_tree:BinarySearchTree,node:BinaryNode):
     if node:
-       # if tree.search(node.elem) != None:
-        tree.remove(node.elem)
-        remove_repeated(tree,node.left)
-        remove_repeated(tree,node.right)
+        if tree2.search(node.elem)==None:
+            output_tree.insert(node.elem)
+
+        insert_not_repeated(tree2,output_tree, node.left)
+
+        insert_not_repeated(tree2, output_tree, node.right)
     return
 
-def insert_repeated( tree2:BinarySearchTree, output_tree: BinarySearchTree, node:BinaryNode):
+def insert_repeated(tree2:BinarySearchTree, output_tree: BinarySearchTree, node:BinaryNode):
     if node:
         if tree2.search(node.elem):
             output_tree.insert(node.elem)
@@ -187,7 +151,7 @@ def insert_repeated( tree2:BinarySearchTree, output_tree: BinarySearchTree, node
 # input_list_02 = [1, 9, 11]
 
 input_list_01 = [18, 9, 12,4,3,2,1,50]
-input_list_02 =  [8,7,4,13,9,11,18]
+input_list_02 =  [2,8,7,50, 4,13,9,11,18]
 
 # Build and draw first tree
 tree1 = BinarySearchTree()
