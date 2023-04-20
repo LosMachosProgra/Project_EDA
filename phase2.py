@@ -11,61 +11,71 @@ from bintree import BinaryNode
 from bst import BinarySearchTree
 
 
+
 # Exercise #1
 class BST2(BinarySearchTree):
 
     def find_dist_k(self, n: int, k: int) -> list:
+        output=[]
+
         if k < 1:
             raise TypeError("k must be a positive integer.")
         # Case 1: Let's find the ones below in the tree.
         # For that purpose, we first need to find the number itself by using the searchit method.
-        self.search(n)
+        node = self.search(n)
         # We will use k in the move_down_k_positions method.
         self.k = k
         # And now that we have the element, we go through the children k times until we find the elements we desire.
         # This is the second case
 
-       # depth_to_node, node_n = self.depth_to_node()
+        # depth_to_node, node_n = self.depth_to_node()
 
-        self.move_down_k_positions(k)
+        self.move_down_k_positions(node,k, output)
         # To obtain more outputs, we have to climb up the tree k positions, for that we simply go down less positions
         # from the root using the searchit method.
+        return output
 
     # Since we can only use .right and .left, we will create a parent of the node by linking it to the previous
     # element. This will allow us to track our steps easier.
 
     # With this search method we will move k positions down in the tree and store the last values in a DList.
-    def move_down_k_positions(self, elem: object) -> str:
+    def move_down_k_positions(self, node:BinaryNode, k: int, output:list) :
         """Returns the elements k steps further down the tree."""
-        output, downwards_counter = self._search()
-        return self._search(self._root, elem)
+        if not node:
+            return
 
+        if k > 0:
+            self.move_down_k_positions(node.left,k-1,output)
+            self.move_down_k_positions(node.right, k-1,output)
 
+        if k == 0:
+            output.append(node.elem)
 
-    def _search(self, node: BinaryNode, elem: object) -> BinaryNode and str:
-        """Recursive function"""
-        # We will add a counter to know how many steps took us to find the number 'n'.
-        downwards_counter = 0
-        # We create the DList we will use to store the elements as we go down in the branches.
-        # downwards_list = self.DList()
-        # We store the values as part of the output.
-        output = '['
-
-        for index in range(0, self.k):
-            # We write self.k - 1 because the range goes from 0 to self.k, last not included, so self.k - 1 is the
-            # penultimate iteration.
-            if node.right is None and node.left is None and index != self.k - 1:
-                return node
-            elif elem < node.elem and index != self.k - 1:
-                return self._search(node.left, elem)
-            elif elem > node.elem and index != self.k - 1:
-                return self._search(node.right, elem)
-            # For this last iteration, we store the elements as part of the output
-            elif index == self.k - 1:
-                output += str(node) + ', '
-            downwards_counter += 1
-        return output and downwards_counter
     #
+    # def _search(self, node: BinaryNode, elem: object) -> BinaryNode and str:
+    #     """Recursive function"""
+    #     # We will add a counter to know how many steps took us to find the number 'n'.
+    #     downwards_counter = 0
+    #     # We create the DList we will use to store the elements as we go down in the branches.
+    #     # downwards_list = self.DList()
+    #     # We store the values as part of the output.
+    #     output = '['
+    #
+    #     for index in range(0, self.k):
+    #         # We write self.k - 1 because the range goes from 0 to self.k, last not included, so self.k - 1 is the
+    #         # penultimate iteration.
+    #         if node.right is None and node.left is None and index != self.k - 1:
+    #             return node
+    #         elif elem < node.elem and index != self.k - 1:
+    #             return self._search(node.left, elem)
+    #         elif elem > node.elem and index != self.k - 1:
+    #             return self._search(node.right, elem)
+    #         # For this last iteration, we store the elements as part of the output
+    #         elif index == self.k - 1:
+    #             output += str(node) + ', '
+    #         downwards_counter += 1
+    #     return output and downwards_counter
+    # #
     # def depth_to_node(self, node: BinaryNode, elem: object):
     #     #This function returns the depth at which the element "n" is.
     #     node = self._root
@@ -95,8 +105,6 @@ class BST2(BinarySearchTree):
     #     if 0 < k < self.node_n.depth_to_node():
     #         # We go down in the tree k movements
     #         while k_counter > 0:
-
-
 # Exercise #2
 
 @property
