@@ -50,7 +50,33 @@ class BST2(BinarySearchTree):
 
         if k == 0:
             output.append(node.elem)
+        
+    def search_from_current_node(self, elem):
+        return self._search_from_current_node(self.node, elem)
 
+    def _search_from_current_node(self, node, elem):
+        if node is None or node.elem == elem:
+            return node
+        elif elem < node.elem:
+            return self._search_from_current_node(node.left, elem)
+        elif elem > node.elem:
+            return self._search_from_current_node(node.right, elem)
+
+    def upwards_output(self) -> str:
+        """This method adds to the output the value of the elements that are directly "k" positions above it."""
+        node_n = self.search(self.n)
+        n_depth = self.depth(node_n)
+        desired_depth = n_depth - self.k
+        if self.depth(self.node) != desired_depth:
+            self.upwards_output(self.node.left)
+            self.upwards_output(self.node.right)
+
+        if self.depth(self.node) == desired_depth:
+            if self.search_from_current_node(self.n) != None:
+                self.output += str(self.node)
+                return self.output
+            if self.search_from_current_node(self.n) == None:
+                return
     #
     # def _search(self, node: BinaryNode, elem: object) -> BinaryNode and str:
     #     """Recursive function"""
