@@ -9,6 +9,7 @@ Pedro Gabriel Mantese Masegosa
 from bintree import BinaryNode
 from bst import BinarySearchTree
 
+
 class BST2(BinarySearchTree):
 
     def find_dist_k(self, n: int, k: int) -> list:
@@ -29,7 +30,9 @@ class BST2(BinarySearchTree):
         self.move_down_k_positions(node, k, output)
         # To obtain more outputs, we have to climb up the tree k positions, for that we simply go down less positions
         # from the root using the searchit method.
-        self.upwards_output(self.root, node, output)
+
+        depth= self.depth(node)
+        self.upwards_output(self.root, node, output, 0, depth)
 
 
         return output
@@ -43,17 +46,12 @@ class BST2(BinarySearchTree):
         """Returns the elements k steps further down the tree."""
         if not node:
             return
-
         if k > 0:
             self.move_down_k_positions(node.left, k - 1, output)
             self.move_down_k_positions(node.right, k - 1, output)
 
         if k == 0:
             output.append(node.elem)
-
-
-    #def search_from_current_node(self, elem):
-     #   return self._search_from_current_node(self.node_it, elem)
 
 
     def _search_from_current_node(self, node:BinaryNode, elem:object):
@@ -65,19 +63,28 @@ class BST2(BinarySearchTree):
             return self._search_from_current_node(node.right, elem)
 
 
-    def upwards_output(self,node_It:BinaryNode, node:BinaryNode, output:list) -> list:
+    def upwards_output(self,node_It:BinaryNode, node:BinaryNode, output:list, depth_It: int, depth_node: int ) -> list:
         """This method adds to the output the value of the elements that are directly "k" positions above it."""
         if node_It:
-            n_depth = self.depth(node)
-            desired_depth = n_depth - self.k
-            if self.depth(node_It) != desired_depth:
-                self.upwards_output(node_It.left, node, output)
-                self.upwards_output(node_It.right, node,output)
+            desired_depth = depth_node - self.k
+            if depth_It < desired_depth:
+                self.upwards_output(node_It.left, node, output, depth_It + 1, depth_node)
 
-            if self.depth(node_It) == desired_depth:
+                self.upwards_output(node_It.right, node,output,depth_It + 1, depth_node)
+
+            if depth_It == desired_depth:
                 if self._search_from_current_node(node_It, node.elem) != None:
                     output.append(node_It.elem)
-                    return output
+                    self.upwards_output(node_It.left, node, output, depth_It + 1, depth_node)
+                    self.upwards_output(node_It.right, node, output, depth_It + 1, depth_node)
+
+            #It is adding the elements that are in the same line that the one from were we start
+           # if depth_It > desired_depth and depth_It != depth_node:
+            #    if self._search_from_current_node(node_It, node.elem) != None:
+             #       self.move_down_k_positions(node_It,depth_It, output)
+
+            if node_It== node:
+                return output
             
 
 
