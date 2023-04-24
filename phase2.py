@@ -5,9 +5,11 @@
 Estéban Gómez Buitrago 
 Pedro Gabriel Mantese Masegosa
 """
-
 from bintree import BinaryNode
 from bst import BinarySearchTree
+
+
+# Exercise #1
 
 class BST2(BinarySearchTree):
 
@@ -51,13 +53,6 @@ class BST2(BinarySearchTree):
         if k == 0:
             self.output.append(node.elem)
 
-    def _search_from_current_node(self, node: BinaryNode, elem: object, First):
-        if node is None or (node.elem == elem and not First):
-            return node
-        elif elem < node.elem:
-            return self._search_from_current_node(node.left, elem, False)
-        elif elem > node.elem:
-            return self._search_from_current_node(node.right, elem,False)
 
     def upwards_output(self, node_It: BinaryNode, node: BinaryNode, depth_It: int) -> list:
         """This method adds to the output the value of the elements that are directly "k" positions above it."""
@@ -69,14 +64,14 @@ class BST2(BinarySearchTree):
                 self.upwards_output(node_It.right, node, depth_It + 1)
 
             if depth_It == desired_depth:
-                if self._search_from_current_node(node_It, node.elem,True) != None:
+                if self._search(node_It, node.elem) != None:
                     self.output.append(node_It.elem)
                 self.upwards_output(node_It.left, node, depth_It + 1)
                 self.upwards_output(node_It.right, node, depth_It + 1)
 
             # It is adding the elements that are in the same line that the one from where we start
-            if depth_It > desired_depth and depth_It != self.depth_node and desired_depth :
-                self.move_down_k_positions(node_It, abs(...))
+            if depth_It > desired_depth and depth_It != self.depth_node :
+                self.move_down_k_positions(node_It, abs(depth_It-self.depth_node))
 
             if node_It == node:
                 return self.output
