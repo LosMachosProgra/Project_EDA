@@ -70,12 +70,19 @@ class BST2(BinarySearchTree):
                 self.upwards_output(node_It.right, node, depth_It + 1)
 
             # It is adding the elements that are in the same line that the one from where we start
-            if depth_It > desired_depth and depth_It != self.depth_node :
-                self.move_down_k_positions(node_It, abs(depth_It-self.depth_node))
-
-            if node_It == node:
-                return self.output
-
+            # In this case, we go through the other side of the tree, passing through the root
+            # (desired_depth is negative)
+            if depth_It > desired_depth:
+                remaining_movements = abs(desired_depth)
+                # Now we see observe if n is in the path that follows the right or the left child.
+                n_in_the_right = self._search(self.root.right, node.elem)
+                if n_in_the_right != None:
+                    self.move_down_k_positions(self.root.left, remaining_movements - 1)
+                elif n_in_the_right == None:
+                    self.move_down_k_positions(self.root.right, remaining_movements - 1)
+        
+        if node_It == node:
+            return self.output
             
 
 
