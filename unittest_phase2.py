@@ -1,16 +1,54 @@
 
 # Classes provided by EDA Team
-from bst import BinarySearchTree
 from phase2 import create_tree
+from phase2 import BST2
 import unittest
 
 class Test(unittest.TestCase):
     def setUp(self):
-        self.input1= BinarySearchTree()
-        self.input2 = BinarySearchTree()
-        self.expected= BinarySearchTree()
+        self.input1= BST2()
+        self.input2 = BST2()
+        self.expected1= []
+        self.expected2= BST2()
+    #Exercise 1
 
+    def test_for_not_at_distance(self):
+        input_list_01 = [1, 2, 3, 4, 5]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in []:
+            self.expected1.append(x)
 
+        self.assertEqual(self.expected1 ,self.input1.find_dist_k(3,4))
+
+    def test_for_only_down(self):
+        input_list_01 = [5,3,2,4,6]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in [3,6]:
+            self.expected1.append(x)
+
+        self.assertEqual(self.expected1 ,self.input1.find_dist_k(5,1))
+
+    def test_for_only_up(self):
+        input_list_01 = [1,2,3,4]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in [2]:
+            self.expected1.append(x)
+
+        self.assertEqual(self.expected1 ,self.input1.find_dist_k(4,2))
+
+    def test_for_only_up_and_down(self):
+        input_list_01 = [1, 2, 3, 4, 5]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in [5,1]:
+            self.expected1.append(x)
+
+        self.assertEqual(self.expected1, self.input1.find_dist_k(3, 2))
+
+    #Exercise 2
     #Tests for merge
 
     def test_for_same_amount_of_element(self):
@@ -25,9 +63,9 @@ class Test(unittest.TestCase):
         for x in input_list_02:
             self.input2.insert(x)
         for x in [1,2,3,4,9,12,18,50,55,7,8,11,13]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list() ,create_tree(self.input1, self.input2, "merge").inorder_list())
+        self.assertEqual(self.expected2.inorder_list() ,create_tree(self.input1, self.input2, "merge").inorder_list())
 
     def test_for_repeated_root(self):
         #This method checks if merge works for two trees were the root of one tree is repeated in the other (merge)
@@ -42,9 +80,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [1,2,3,4,9,12,18,50,55,7,8,11,13]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list() ,create_tree(self.input1, self.input2, "merge").inorder_list())
+        self.assertEqual(self.expected2.inorder_list() ,create_tree(self.input1, self.input2, "merge").inorder_list())
 
     def test_equal_trees(self):
         #This method checks if merge works for equal trees (merge)
@@ -58,9 +96,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [1,2,3,4]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list() ,create_tree(self.input1, self.input2, "merge").inorder_list())
+        self.assertEqual(self.expected2.inorder_list() ,create_tree(self.input1, self.input2, "merge").inorder_list())
 
     def test_not_equal_elements(self):
         #Here we're checking if it works when we don't have equal elements (merge)
@@ -74,9 +112,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [1, 2, 3, 4, 5, 6, 7]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list(), create_tree(self.input1, self.input2, "merge").inorder_list())
+        self.assertEqual(self.expected2.inorder_list(), create_tree(self.input1, self.input2, "merge").inorder_list())
 
     #For intersection
 
@@ -93,9 +131,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in []:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list() ,create_tree(self.input1, self.input2,
+        self.assertEqual(self.expected2.inorder_list() ,create_tree(self.input1, self.input2,
                                                                    "intersection").inorder_list())
 
     def test_for_all_repeated(self):
@@ -111,9 +149,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [1,2,3,4]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list() ,create_tree(self.input1, self.input2, "merge").inorder_list())
+        self.assertEqual(self.expected2.inorder_list() ,create_tree(self.input1, self.input2, "merge").inorder_list())
 
     def test_for_different_sizes(self):
         #This method checks if intersection works for trees of different size (intersection)
@@ -127,9 +165,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [3, 4, 5]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list() ,create_tree(self.input1, self.input2,
+        self.assertEqual(self.expected2.inorder_list() ,create_tree(self.input1, self.input2,
                                                                    "intersection").inorder_list())
 
     def test_1_repeated_elem(self):
@@ -144,9 +182,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [1]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list(), create_tree(self.input1, self.input2,
+        self.assertEqual(self.expected2.inorder_list(), create_tree(self.input1, self.input2,
                                                                    "intersection").inorder_list())
 
 
@@ -162,9 +200,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [1, 5, 8, 6]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list(), create_tree(self.input1, self.input2,
+        self.assertEqual(self.expected2.inorder_list(), create_tree(self.input1, self.input2,
                                                                    "intersection").inorder_list())
 
     #For difference
@@ -182,9 +220,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [1, 2, 3, 4, 5, 6]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list(), create_tree(self.input1, self.input2,
+        self.assertEqual(self.expected2.inorder_list(), create_tree(self.input1, self.input2,
                                                                    "difference").inorder_list())
 
     def test_for_elems_repeated_in_tree2(self):
@@ -200,9 +238,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in []:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list(),
+        self.assertEqual(self.expected2.inorder_list(),
                          create_tree(self.input1, self.input2, "difference").inorder_list())
 
     def test_for_some_repeated(self):
@@ -217,9 +255,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [1, 2]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list(), create_tree(self.input1, self.input2,
+        self.assertEqual(self.expected2.inorder_list(), create_tree(self.input1, self.input2,
                                                                    "difference").inorder_list())
 
     def test_of_repeated_root(self):
@@ -234,9 +272,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [2, 3, 4]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list(), create_tree(self.input1, self.input2,
+        self.assertEqual(self.expected2.inorder_list(), create_tree(self.input1, self.input2,
                                                                    "difference").inorder_list())
     def test_of_bigger_tree1(self):
         #Says if it works for a big tree 1, and a relatively small tree2 with some repeated elements (difference)
@@ -250,9 +288,9 @@ class Test(unittest.TestCase):
             self.input2.insert(x)
 
         for x in [2, 3, 4, 8, 5, 15, 19]:
-            self.expected.insert(x)
+            self.expected2.insert(x)
 
-        self.assertEqual(self.expected.inorder_list(), create_tree(self.input1, self.input2,
+        self.assertEqual(self.expected2.inorder_list(), create_tree(self.input1, self.input2,
                                                                    "difference").inorder_list())
 # Some usage examples
 if __name__ == '__main__':
