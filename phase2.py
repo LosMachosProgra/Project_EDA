@@ -10,7 +10,6 @@ from bst import BinarySearchTree
 
 
 # Exercise #1
-
 class BST2(BinarySearchTree):
 
     def find_dist_k(self, n: int, k: int) -> list:
@@ -20,24 +19,22 @@ class BST2(BinarySearchTree):
             raise TypeError("k must be a positive integer.")
         # Case 1: Let's find the ones below in the tree.
         # For that purpose, we first need to find the number itself by using the searchit method.
-        node = self.search(n)
+        self.node = self.search(n)
         # We will use k in the move_down_k_positions method.
         self.k = k
         # And now that we have the element, we go through the children k times until we find the elements we desire.
         # This is the second case
         # This variable is to know if n is in the left part of the tree or the right part and search elements in
         # consecuence.
-        self.n_in_the_right = self._search(self.root.right, node.elem)
+        self.n_in_the_right = self._search(self.root.right, self.node.elem)
 
-        # depth_to_node, node_n = self.depth_to_node()
 
-        self.move_down_k_positions(node, k)
-        # To obtain more outputs, we have to climb up the tree k positions, for that we simply go down less positions
-        # from the root using the searchit method.
-
-        self.depth_node = self.depth(node)
-        self.upwards_output(self.root, node, 0)
-        self.intermediate_elements(node)
+        if self.node==self.root:
+            self.move_down_k_positions(self.node,k)
+        else:
+            self.depth_node = self.depth(self.node)
+            self.desired_depth = self.depth_node - self.k
+            self.upwards_output(self.root, 0)
 
         return self.output
 
@@ -57,106 +54,56 @@ class BST2(BinarySearchTree):
         if k == 0:
             self.output.append(node.elem)
 
-    def upwards_output(self, node_It: BinaryNode, node: BinaryNode, depth_It: int) -> list:
+    def upwards_output(self, node_It: BinaryNode, depth_It: int):
         """This method adds to the output the value of the elements that are directly "k" positions above it."""
 
-        if node_It:
-            desired_depth = self.depth_node - self.k
-            # Desired_depth is positive
-            if depth_It < desired_depth:
-                self.upwards_output(node_It.left, node, depth_It + 1)
+        if node_It and (depth_It<=self.depth_node + self.k):
 
-                self.upwards_output(node_It.right, node, depth_It + 1)
+            if not self._search(node_It, self.node.elem):
+                side_of_node = False
+            else:
+                side_of_node = True
 
-            if depth_It == desired_depth:
-                if self._search(node_It, node.elem) != None:
+            if node_It == self.node:
+                print("0")
+                self.move_down_k_positions(self.node, self.k)
+
+
+            if depth_It < self.desired_depth:
+                print("1")
+                self.upwards_output(node_It.left,depth_It + 1)
+                self.upwards_output(node_It.right, depth_It + 1)
+
+            if depth_It >= self.desired_depth:
+                if side_of_node and depth_It==self.desired_depth:
+                    print("2")
                     self.output.append(node_It.elem)
-                self.upwards_output(node_It.left, node, depth_It + 1)
-                self.upwards_output(node_It.right, node, depth_It + 1)
+
+                if depth_It > self.desired_depth and node_It!=self.node:
+                    if self.n_in_the_right != None:
+                        self.move_down_k_positions(node_It.left, self.depth_node-depth_It-1)
+
+                    elif self.n_in_the_right == None:
+                        self.move_down_k_positions(node_It.right, self.depth_node - depth_It - 1)
+
+                self.upwards_output(node_It.left, depth_It + 1)
+                self.upwards_output(node_It.right, depth_It + 1)
 
             # In this case, we go through the other side of the tree, passing through the root
             # (desired_depth is negative)
-            if depth_It > desired_depth:
-                remaining_movements = abs(desired_depth)
-
+            if node_It == self.root:
+                print("3")
+                remaining_movements = abs(self.desired_depth)
                 if self.n_in_the_right != None:
                     # We substact 1 from remaining_movements because we start the process from the child of the root,
                     # Thus, using one of the movements we had left.
                     self.move_down_k_positions(self.root.left, remaining_movements - 1)
+
                 elif self.n_in_the_right == None:
                     self.move_down_k_positions(self.root.right, remaining_movements - 1)
-
-    def intermediate_elements(self, node: BinaryNode):
-        # This variable will be used when calculating the elements that appear when going up from n and afterwards down.
-        intermediate_movements = self.k - self.depth_node
-
-        # This case appears when we have no moves to go through an alternative path.
-        # if intermediate_movements < 1:
-        if self.n_in_the_right == None:
-            self._intermediate_elements(self.root.left, node, intermediate_movements)
-        elif self.n_in_the_right != None:
-            self._intermediate_elements(self.root.right, node, intermediate_movements)
-
-    # else: #intermediate-movements >= 1
-    #   self.intermediate_elements(node)
-
-    def _intermediate_elements(self, node_It, node: BinaryNode, intermediate_movements):
-        """This method finds the elements that appear going up from the element n and down again, in the same side of
-        the tree."""
-        if node_It.elem == node.elem:
-            return None
-        elif intermediate_movements < 1:
-            self._intermediate_elements(node_It.left, node, intermediate_movements + 1)
-            self._intermediate_elements(node_It.right, node, intermediate_movements + 1)
-        elif self._search(node_It, node) != None:
-            # We add one to the movements available because we are getting closer to n.
-            intermediate_movements += 1
-            self._intermediate_elements(node_It.right, node, intermediate_movements + 1)
-            self._intermediate_elements(node_It.left, node, intermediate_movements + 1)
-        else: # self._search(node_It, node) == None
-            intermediate_movements -= 1
-            if intermediate_movements == 0:
-                self.output.append(node.elem)
-            else: # intermediate_movements != 0
-                self._intermediate_elements(node_It.right, node, intermediate_movements - 1)
-                self._intermediate_elements(node_It.left, node, intermediate_movements - 1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                """n_is_below = self._search(self.root.right, node.elem)
-                if n_is_below == None:
-                    # We use "desired_depth - 1" because we are analyzing what happens departing from the child of the
-                    # root. If we started from te root, we would be using "desired_depth".
-                    self.move_down_k_positions(self.root.left, abs(desired_depth))
-
-                if n_is_below != None:
-                    self.move_down_k_positions(self.root.right, abs(desired_depth))
-
-
-                self.move_down_k_positions(node_It, abs(depth_It - self.depth_node))"""
-
-        if node_It == node:
-            return self.output
-
-
+            self.upwards_output(node_It.left, depth_It + 1)
+            self.upwards_output(node_It.right, depth_It + 1)
+            
 # Some usage examples
 if __name__ == '__main__':
     input_list_01 = [5, 2, 3, 1, 7, 9, 6, 23, 30, 4, 8]
