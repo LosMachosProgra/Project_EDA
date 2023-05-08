@@ -85,6 +85,26 @@ if __name__ == '__main__':
         tree1.insert(x)
     tree1.draw()
     print(tree1.find_dist_k(20,5))
+    
+@property
+def n(self):
+    return self.__n
+
+@n.setter
+def n(self, n: int):
+    if type(n) != int:
+        TypeError("n must be an integer.")
+    elif self._search(self.root, n) is None:
+        ValueError("n must be an element of the tree.")
+
+@property
+def k(self):
+    return self.k
+
+@k.setter
+def k(self, k: int):
+    if type(k) != int:
+        TypeError("k must be an integer.")
 
 # Exercise #2
 
