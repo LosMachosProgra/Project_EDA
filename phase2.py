@@ -93,9 +93,9 @@ def n(self):
 @n.setter
 def n(self, n: int):
     if type(n) != int:
-        TypeError("n must be an integer.")
+        raise TypeError("n must be an integer.")
     elif self._search(self.root, n) is None:
-        ValueError("n must be an element of the tree.")
+        raise ValueError("n must be an element of the tree.")
 
 @property
 def k(self):
@@ -104,7 +104,7 @@ def k(self):
 @k.setter
 def k(self, k: int):
     if type(k) != int:
-        TypeError("k must be an integer.")
+        raise TypeError("k must be an integer.")
 
 # Exercise #2
 
