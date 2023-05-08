@@ -3,6 +3,7 @@
 @author: Pedro Gabriel Mantese Masegosa
 """
 
+# Classes provided by EDA Team
 from bintree import BinaryNode
 from bst import BinarySearchTree
 
@@ -47,11 +48,11 @@ class BST2(BinarySearchTree):
                     print("root in range")
                     if not n_in_the_right:
                         print("node in the left, so we go {} right".format(self.k - self.depth_node))
-                        self.move_down_k_positions(node_It.right, self.k - self.depth_node-1)
+                        self.move_down_k_positions(node_It.right, self.k - self.depth_node - 1)
                         self.upwards_output(node_It.left, depth_It + 1, next_depth, True)
                     elif n_in_the_right:
                         print("node in the rigth, so we go {} left".format(self.k - self.depth_node))
-                        self.move_down_k_positions(node_It.left, self.k - self.depth_node-1)
+                        self.move_down_k_positions(node_It.left, self.k - self.depth_node -  1)
                         self.upwards_output(node_It.right, depth_It + 1, next_depth, True)
                 else:
                     print("root NOT in range")
@@ -65,26 +66,26 @@ class BST2(BinarySearchTree):
             if in_range and check_root:
                 if n_in_the_right:
                     print("lado derecho")
-                    self.move_down_k_positions(node_It.left, self.k - self.depth_node)
+                    self.move_down_k_positions(node_It.left, self.k - 1 -(self.depth_node - depth_It ))
                     self.upwards_output(node_It.right, depth_It + 1 , next_depth,True)
                 elif not n_in_the_right:
                     print("lado izquierdo")
-                    self.move_down_k_positions(node_It.right, self.k - self.depth_node )
+                    self.move_down_k_positions(node_It.right, self.k - 1 -(self.depth_node - depth_It ))
                     self.upwards_output(node_It.left, depth_It + 1, next_depth,True)
 
             if not in_range and check_root:
                 if depth_It < self.desired_depth:
                     print("acercandose")
-                    self.upwards_output(node_It.left, depth_It + 1, next_depth,True )
-                    self.upwards_output(node_It.right, depth_It + 1, next_depth,True)
                 if depth_It == self.desired_depth:
                     print("print, desired depth", node_It.elem)
                     self.output.append(node_It.elem)
-                    self.upwards_output(node_It.left, depth_It + 1, next_depth,True)
-                    self.upwards_output(node_It.right, depth_It + 1, next_depth,True)
-                if node_It==self.node:
-                    print("abajo")
-                    self.move_down_k_positions(self.node, self.k)
+
+                self.upwards_output(node_It.left, depth_It + 1, next_depth,True)
+                self.upwards_output(node_It.right, depth_It + 1, next_depth,True)
+
+            if node_It==self.node:
+                print("abajo")
+                self.move_down_k_positions(self.node, self.k)
 
             print("end")
 
