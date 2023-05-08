@@ -18,10 +18,9 @@ class BST2(BinarySearchTree):
 
         if k < 1:
             raise TypeError("k must be a positive integer.")
-        # Case 1: Let's find the ones below in the tree.
-        # For that purpose, we first need to find the number itself by using the searchit method.
+
         self.node = self.search(n)
-        # We will use k in the move_down_k_positions method.
+        
         self.k = k
 
 
