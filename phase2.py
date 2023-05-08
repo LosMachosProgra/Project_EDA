@@ -24,64 +24,42 @@ class BST2(BinarySearchTree):
         # We will use k in the move_down_k_positions method.
         self.k = k
 
-        if self.node==self.root:
+        if self.node == self.root:
             self.move_down_k_positions(self.node,k)
         else:
             self.depth_node = self.depth(self.node)
             self.desired_depth = self.depth_node - self.k
-            self.upwards_output(self.root, 0, 0 > self.desired_depth, False)
+            self.upwards_output(self.root, 0, 0 > self.desired_depth)
 
         return self.output
 
-    def upwards_output(self, node_It: BinaryNode, depth_It: int, in_range:bool, check_root):
+    def upwards_output(self, node_It: BinaryNode, depth_It: int, in_range:bool):
         if node_It:
             next_depth= (depth_It + 1 > self.desired_depth) and (depth_It + 1 < self.depth_node)
             if node_It.right:
                 n_in_the_right = self._search(node_It.right, self.node.elem)
             else:
                 n_in_the_right = False
-
-            print(in_range)
-
-            if not check_root:
-                if in_range:
-                    print("root in range")
-                    if not n_in_the_right:
-                        print("node in the left, so we go {} right".format(self.k - self.depth_node))
-                        self.move_down_k_positions(node_It.right, self.k - self.depth_node - 1)
-                        self.upwards_output(node_It.left, depth_It + 1, next_depth, True)
-                    elif n_in_the_right:
-                        print("node in the rigth, so we go {} left".format(self.k - self.depth_node))
-                        self.move_down_k_positions(node_It.left, self.k - self.depth_node -  1)
-                        self.upwards_output(node_It.right, depth_It + 1, next_depth, True)
-                else:
-                    print("root NOT in range")
-                    if depth_It==self.desired_depth:
-                        self.output.append(node_It.elem)
-                    if not n_in_the_right:
-                        self.upwards_output(node_It.left, depth_It + 1, next_depth, True)
-                    if n_in_the_right:
-                        self.upwards_output(node_It.right, depth_It + 1, next_depth, True)
-
-            if in_range and check_root:
+            if in_range:
                 if n_in_the_right:
                     print("lado derecho")
                     self.move_down_k_positions(node_It.left, self.k - 1 -(self.depth_node - depth_It ))
-                    self.upwards_output(node_It.right, depth_It + 1 , next_depth,True)
+                    self.upwards_output(node_It.right, depth_It + 1 , next_depth)
                 elif not n_in_the_right:
                     print("lado izquierdo")
                     self.move_down_k_positions(node_It.right, self.k - 1 -(self.depth_node - depth_It ))
-                    self.upwards_output(node_It.left, depth_It + 1, next_depth,True)
+                    self.upwards_output(node_It.left, depth_It + 1, next_depth)
 
-            if not in_range and check_root:
+            if not in_range :
                 if depth_It < self.desired_depth:
                     print("acercandose")
                 if depth_It == self.desired_depth:
                     print("print, desired depth", node_It.elem)
                     self.output.append(node_It.elem)
-
-                self.upwards_output(node_It.left, depth_It + 1, next_depth,True)
-                self.upwards_output(node_It.right, depth_It + 1, next_depth,True)
+                if n_in_the_right:
+                    self.upwards_output(node_It.right, depth_It + 1, next_depth)
+                if not n_in_the_right:
+                    self.upwards_output(node_It.left, depth_It + 1, next_depth,)
 
             if node_It==self.node:
                 print("abajo")
@@ -103,6 +81,17 @@ class BST2(BinarySearchTree):
         if k == 0:
             print("print", node.elem)
             self.output.append(node.elem)
+
+if __name__ == '__main__':
+    input_list_01 = [10, 12, 11, 14, 13, 16, 15, 8, 9, 6, 7, 4, 5]
+
+    # Build and draw first tree
+    tree1 = BST2()
+    for x in input_list_01:
+        tree1.insert(x)
+    tree1.draw()
+    print(tree1.find_dist_k(7,4))
+
 
 
 # Some usage examples
