@@ -10,6 +10,7 @@ class Test(unittest.TestCase):
         self.input2 = BST2()
         self.expected1= []
         self.expected2= BST2()
+
     #Exercise 1
 
     def test_for_not_at_distance(self):
@@ -20,6 +21,15 @@ class Test(unittest.TestCase):
             self.expected1.append(x)
 
         self.assertEqual(self.expected1 ,self.input1.find_dist_k(3,4))
+
+    def test_for_from_root_downwards(self):
+        input_list_01 = [5, 4, 2, 3, 1, 6, 8, 7, 9]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in [1, 3, 7, 9]:
+            self.expected1.append(x)
+
+        self.assertEqual(self.expected1, self.input1.find_dist_k(5, 3))
 
     def test_for_only_down(self):
         input_list_01 = [5,3,2,4,6]
@@ -65,6 +75,35 @@ class Test(unittest.TestCase):
             self.expected1.append(x)
 
         self.assertEqual(self.expected1, self.input1.find_dist_k(6, 2))
+
+    def test_for_other_extreme_of_the_tree(self):
+        input_list_01 = [5, 4, 2, 3, 1, 6, 8, 7, 9]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in [1, 3]:
+            self.expected1.append(x)
+
+        self.assertEqual(self.expected1, self.input1.find_dist_k(9, 6))
+
+    def test_for_very_big_tree_through_root(self):
+        input_list_01 = [20, 10, 30, 15, 26, 25, 35, 5, 4, 6, 2, 3, 1, 8, 7, 9, 13, 12, 17, 16, 19, 21, 24, 23,
+                         18, 27, 29, 32, 33, 31, 34, 38, 36, 37, 39, 40]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in [10, 25, 27, 37, 40]:
+            self.expected1.append(x)
+
+        self.assertEqual(self.expected1, self.input1.find_dist_k(34, 6))
+
+    def test_for_very_big_tree_in_middle(self):
+        input_list_01 = [20, 10, 30, 15, 26, 25, 35, 5, 4, 6, 2, 3, 1, 8, 7, 9, 13, 12, 17, 16, 19, 21, 24, 23,
+                         18, 27, 29, 32, 33, 31, 34, 38, 36, 37, 39, 40]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in [10, 13, 18]:
+            self.expected1.append(x)
+
+        self.assertEqual(self.expected1, self.input1.find_dist_k(16, 3))
 
 
     #Exercise 2
