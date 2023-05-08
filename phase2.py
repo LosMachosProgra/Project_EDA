@@ -14,16 +14,15 @@ from bst import BinarySearchTree
 class BST2(BinarySearchTree):
 
     def find_dist_k(self, n: int, k: int) -> list:
+        # The desired elements will be added to this list.
         self.output = []
 
         if k < 1:
             raise TypeError("k must be a positive integer.")
-        # Case 1: Let's find the ones below in the tree.
-        # For that purpose, we first need to find the number itself by using the searchit method.
+        # We first need to find the number itself by using the searchit method.
         self.node = self.search(n)
         # We will use k in the move_down_k_positions method.
         self.k = k
-
 
         if self.node == self.root:
             self.move_down_k_positions(self.node,k)
@@ -35,24 +34,26 @@ class BST2(BinarySearchTree):
         return self.output
 
     def upwards_output(self, node_It: BinaryNode, depth_It: int, in_range:bool):
+        """This method returns the desired elements directly above n, the ones obtained by going up and down in the 
+        tree, and the ones k number of positions down in the tree, if they exist."""
         if node_It:
-            if node_It==self.node:
-                self.move_down_k_positions(self.node, self.k)
-                
-            next_depth= (depth_It + 1 > self.desired_depth) and (depth_It + 1 < self.depth_node)
+            # Next_depth tells us if we are in the interval to analyze elements we geet by going up and down in the tree
+            next_depth = (depth_It + 1 > self.desired_depth) and (depth_It + 1 < self.depth_node)
             if node_It.right:
+                # This variable confirms us which way to go in the branch.
                 n_in_the_right = self._search(node_It.right, self.node.elem)
             else:
                 n_in_the_right = False
             if in_range:
+                # We move in the opposite direction to n in order to find the up and down elements
                 if n_in_the_right:
-                    self.move_down_k_positions(node_It.left, self.k - 1 -(self.depth_node - depth_It ))
+                    self.move_down_k_positions(node_It.left, self.k - 1 -(self.depth_node - depth_It))
                     self.upwards_output(node_It.right, depth_It + 1 , next_depth)
                 elif not n_in_the_right:
-                    self.move_down_k_positions(node_It.right, self.k - 1 -(self.depth_node - depth_It ))
+                    self.move_down_k_positions(node_It.right, self.k - 1 - (self.depth_node - depth_It))
                     self.upwards_output(node_It.left, depth_It + 1, next_depth)
 
-            if not in_range :
+            if not in_range:
                 if depth_It == self.desired_depth:
                     self.output.append(node_It.elem)
                 if n_in_the_right:
@@ -60,10 +61,10 @@ class BST2(BinarySearchTree):
                 if not n_in_the_right:
                     self.upwards_output(node_It.left, depth_It + 1, next_depth,)
 
+            if node_It == self.node:
+                self.move_down_k_positions(self.node, self.k)
 
-
-
-        # With this search method we will move k positions down in the tree and store the last values in a DList.
+        #
     def move_down_k_positions(self, node: BinaryNode, k: int):
         """Returns the elements k steps further down the tree."""
         if not node:
@@ -77,15 +78,16 @@ class BST2(BinarySearchTree):
             self.output.append(node.elem)
 
 if __name__ == '__main__':
-    input_list_01 = [10, 12, 11, 14, 13, 16, 15, 8, 9, 6, 7, 4, 5,20,1,3,17]
+    input_list_01 = [20, 10, 30, 15, 26, 25, 35, 5, 4, 6, 2, 3, 1, 8, 7, 9, 13, 12, 17, 16, 19, 21, 24, 23, 18, 27, 29,
+                     32, 33, 31, 34, 38, 36, 37, 39, 40]
 
     # Build and draw first tree
     tree1 = BST2()
     for x in input_list_01:
         tree1.insert(x)
     tree1.draw()
-    print(tree1.find_dist_k(20,5))
-    
+    print(tree1.find_dist_k(20, 4))
+
 @property
 def n(self):
     return self.__n
@@ -93,9 +95,9 @@ def n(self):
 @n.setter
 def n(self, n: int):
     if type(n) != int:
-        raise TypeError("n must be an integer.")
+        TypeError("n must be an integer.")
     elif self._search(self.root, n) is None:
-        raise ValueError("n must be an element of the tree.")
+        ValueError("n must be an element of the tree.")
 
 @property
 def k(self):
@@ -104,7 +106,21 @@ def k(self):
 @k.setter
 def k(self, k: int):
     if type(k) != int:
-        raise TypeError("k must be an integer.")
+        TypeError("k must be an integer.")
+
+
+
+# # Some usage examples
+# if __name__ == '__main__':
+#     input_list_01 = [5, 2, 3, 1, 7, 9, 6, 23, 30, 4, 8, 10, 24, 22, 19, 11]
+#
+#     # Build and draw first tree
+#     tree1 = BST2()
+#     for x in input_list_01:
+#         tree1.insert(x)
+#     tree1.draw()
+#     print(tree1.find_dist_k(5, 3))
+
 
 # Exercise #2
 
@@ -203,5 +219,3 @@ def insert_repeated(tree2: BinarySearchTree, output_tree: BinarySearchTree, node
 #     res = create_tree(tree1, tree2, op_name)
 #     print(f"-- Result for {op_name} method. #{res.size()} nodes")
 #     res.draw()
-
-# Tried to do the first exercise using DLists, but there is a simpler approach.
