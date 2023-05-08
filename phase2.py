@@ -24,6 +24,7 @@ class BST2(BinarySearchTree):
         # We will use k in the move_down_k_positions method.
         self.k = k
 
+
         if self.node == self.root:
             self.move_down_k_positions(self.node,k)
         else:
@@ -42,19 +43,14 @@ class BST2(BinarySearchTree):
                 n_in_the_right = False
             if in_range:
                 if n_in_the_right:
-                    print("lado derecho")
                     self.move_down_k_positions(node_It.left, self.k - 1 -(self.depth_node - depth_It ))
                     self.upwards_output(node_It.right, depth_It + 1 , next_depth)
                 elif not n_in_the_right:
-                    print("lado izquierdo")
                     self.move_down_k_positions(node_It.right, self.k - 1 -(self.depth_node - depth_It ))
                     self.upwards_output(node_It.left, depth_It + 1, next_depth)
 
             if not in_range :
-                if depth_It < self.desired_depth:
-                    print("acercandose")
                 if depth_It == self.desired_depth:
-                    print("print, desired depth", node_It.elem)
                     self.output.append(node_It.elem)
                 if n_in_the_right:
                     self.upwards_output(node_It.right, depth_It + 1, next_depth)
@@ -62,16 +58,13 @@ class BST2(BinarySearchTree):
                     self.upwards_output(node_It.left, depth_It + 1, next_depth,)
 
             if node_It==self.node:
-                print("abajo")
                 self.move_down_k_positions(self.node, self.k)
 
-            print("end")
 
         # With this search method we will move k positions down in the tree and store the last values in a DList.
     def move_down_k_positions(self, node: BinaryNode, k: int):
         """Returns the elements k steps further down the tree."""
         if not node:
-            print("nada")
             return
 
         if k > 0:
@@ -79,32 +72,17 @@ class BST2(BinarySearchTree):
             self.move_down_k_positions(node.right, k - 1)
 
         if k == 0:
-            print("print", node.elem)
             self.output.append(node.elem)
 
 if __name__ == '__main__':
-    input_list_01 = [10, 12, 11, 14, 13, 16, 15, 8, 9, 6, 7, 4, 5]
+    input_list_01 = [10, 12, 11, 14, 13, 16, 15, 8, 9, 6, 7, 4, 5,20,1,3,17]
 
     # Build and draw first tree
     tree1 = BST2()
     for x in input_list_01:
         tree1.insert(x)
     tree1.draw()
-    print(tree1.find_dist_k(7,4))
-
-
-
-# Some usage examples
-if __name__ == '__main__':
-    input_list_01 = [5, 2, 3, 1, 7, 9, 6, 23, 30, 4, 8, 10, 24, 22, 19, 11]
-
-    # Build and draw first tree
-    tree1 = BST2()
-    for x in input_list_01:
-        tree1.insert(x)
-    tree1.draw()
-    print(tree1.find_dist_k(8, 4))
-
+    print(tree1.find_dist_k(20,5))
 
 # Exercise #2
 
