@@ -43,10 +43,29 @@ class Test(unittest.TestCase):
         input_list_01 = [1, 2, 3, 4, 5]
         for x in input_list_01:
             self.input1.insert(x)
-        for x in [5,1]:
+        for x in [1,5]:
             self.expected1.append(x)
 
         self.assertEqual(self.expected1, self.input1.find_dist_k(3, 2))
+
+    def test_for_through_root(self):
+        input_list_01 = [5, 12, 2, 1, 3, 9,13]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in [1,3]:
+            self.expected1.append(x)
+
+        self.assertEqual(self.expected1, self.input1.find_dist_k(13, 4))
+
+    def test_for_in_middle(self):
+        input_list_01 = [10, 12, 11, 14, 13, 16, 15, 8, 9, 6, 7, 4, 5]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in [10,9,5]:
+            self.expected1.append(x)
+
+        self.assertEqual(self.expected1, self.input1.find_dist_k(6, 2))
+
 
     #Exercise 2
     #Tests for merge
