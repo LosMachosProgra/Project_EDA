@@ -18,9 +18,10 @@ class BST2(BinarySearchTree):
 
         if k < 1:
             raise TypeError("k must be a positive integer.")
-
+        # Case 1: Let's find the ones below in the tree.
+        # For that purpose, we first need to find the number itself by using the searchit method.
         self.node = self.search(n)
-        
+        # We will use k in the move_down_k_positions method.
         self.k = k
 
 
@@ -35,6 +36,9 @@ class BST2(BinarySearchTree):
 
     def upwards_output(self, node_It: BinaryNode, depth_It: int, in_range:bool):
         if node_It:
+            if node_It==self.node:
+                self.move_down_k_positions(self.node, self.k)
+                
             next_depth= (depth_It + 1 > self.desired_depth) and (depth_It + 1 < self.depth_node)
             if node_It.right:
                 n_in_the_right = self._search(node_It.right, self.node.elem)
@@ -56,8 +60,7 @@ class BST2(BinarySearchTree):
                 if not n_in_the_right:
                     self.upwards_output(node_It.left, depth_It + 1, next_depth,)
 
-            if node_It==self.node:
-                self.move_down_k_positions(self.node, self.k)
+
 
 
         # With this search method we will move k positions down in the tree and store the last values in a DList.
