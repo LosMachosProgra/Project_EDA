@@ -104,6 +104,16 @@ class Test(unittest.TestCase):
             self.expected1.append(x)
 
         self.assertEqual(self.expected1, self.input1.find_dist_k(16, 3))
+        
+    def test_for_very_big_tree_from_root(self):
+        input_list_01 = [20, 10, 30, 15, 26, 25, 35, 5, 4, 6, 2, 3, 1, 8, 7, 9, 13, 12, 17, 16, 19, 21, 24, 23,
+                         18, 27, 29, 32, 33, 31, 34, 38, 36, 37, 39, 40]
+        for x in input_list_01:
+            self.input1.insert(x)
+        for x in [2, 8, 12, 16, 19, 21, 29, 31, 33, 36, 39]:
+            self.expected1.append(x)
+
+        self.assertEqual(self.expected1, self.input1.find_dist_k(20, 4))
 
 
     #Exercise 2
